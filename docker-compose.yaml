@@ -1,0 +1,24 @@
+# version: '3.8'
+
+services:
+  graphql-api:
+    build:
+      context: .
+      args:
+        NODE_ENV: ${NODE_ENV:-development}  # Pass environment as a build argument
+    image: graphql-weather-api
+    container_name: graphql-weather-api
+    ports:
+      - "4000:4000"
+    env_file:
+      - .env
+    environment:
+      - NODE_ENV=${NODE_ENV:-development}  # Default to development if not set
+    volumes:
+      - .:/usr/src/app  # Mount local files for live updates in dev
+    command: >
+      sh -c "if [ \"$NODE_ENV\" = \"development\" ]; then
+        npm run dev;
+      else
+        npm start;
+      fi"
