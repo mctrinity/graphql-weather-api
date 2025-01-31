@@ -53,11 +53,20 @@ cd graphql-weather-api
 npm install
 ```
 
-3. Create a `.env` file in the root directory with the following content:
+3. Create `.env` files for development and production:
 
+### `.env.development` (for local development)
 ```env
-OPENWEATHER_API_KEY=your-api-key-here
-OPENWEATHER_BASE_URL=https://api.openweathermap.org/data/2.5/weather
+OPENWEATHER_API_KEY=your_development_api_key
+NODE_ENV=development
+PORT=4000
+```
+
+### `.env.production` (for production)
+```env
+OPENWEATHER_API_KEY=your_production_api_key
+NODE_ENV=production
+PORT=4000
 ```
 
 ## Usage
@@ -115,6 +124,34 @@ docker-compose up -d --build
 ```
 
 Now visit `http://localhost:4000/graphql` to access the API.
+
+---
+
+## Best Cleanup Commands
+
+To remove all stopped containers, unused images, volumes, and networks, use the following:
+
+```bash
+# Stop all running containers
+docker ps -q | xargs -r docker stop
+
+# Remove all stopped containers
+docker rm $(docker ps -aq)
+
+# Remove all unused images
+docker image prune -a -f
+
+# Remove all unused volumes
+docker volume prune -f
+
+# Remove all unused networks
+docker network prune -f
+
+# Complete cleanup (removes everything unused)
+docker system prune -a --volumes -f
+```
+
+These commands help keep your system clean and free up disk space.
 
 ---
 
